@@ -1,1 +1,5 @@
-# upload
+# @makeform/upload
+
+## License
+
+MIT
