@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.5
+
+ - fix bug: title class `d-flex` was incorrectly added twice, one of which should be `flex-wrap`.
+
+
 ## v1.0.4
 
  - rename `文件` to `檔案` for better semantic when this block is extended.
