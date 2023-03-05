@@ -1,5 +1,12 @@
 # Change Logs
 
+## v1.0.4
+
+ - rename `文件` to `檔案` for better semantic when this block is extended.
+ - tweak file list UI
+ - support preview plugin for child blocks to customize.
+
+
 ## v1.0.3
 
  - make file info wrappable

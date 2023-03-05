@@ -4,17 +4,17 @@ module.exports =
     extend: name: '@makeform/common'
     i18n:
       en:
-        "未命名的文件": "unnamed file"
+        "未命名的檔案": "unnamed file"
         "上傳": "upload"
         "上傳中": "uploading"
-        "尚未上傳文件": "no file uploaded yet"
+        "尚未上傳任何檔案": "no file uploaded yet"
         "檔案大小": "File Size"
         "上傳時間": "Upload Time"
       "zh-TW":
-        "未命名的文件": "未命名的文件"
+        "未命名的檔案": "未命名的檔案"
         "上傳": "上傳"
         "上傳中": "上傳中"
-        "尚未上傳文件": "尚未上傳文件"
+        "尚未上傳任何檔案": "尚未上傳任何檔案"
         "檔案大小": "檔案大小"
         "上傳時間": "上傳時間"
     dependencies: [
@@ -125,8 +125,8 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
               time: ({node, ctx}) ->
                 node.innerText = moment(ctx.modifiedtime).tz("Asia/Taipei").format("YYYY-MM-DD hh:mm:ss")
               filename: ({node, ctx}) ->
-                if !ctx => node.innerText = t("尚未上傳文件")
-                name = ctx.filename or t("未命名的文件")
+                if !ctx => node.innerText = t("尚未上傳任何檔案")
+                name = ctx.filename or t("未命名的檔案")
                 if name.length > 40 => name = name.substring(0,40) + "..."
                 node.innerText = name
               detail: ({node, ctx}) ->

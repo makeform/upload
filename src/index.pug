@@ -16,9 +16,11 @@ div
         input(type="file",ld="input")
         .ld.ld-spin.ld-spinner
       .d-flex.flex-column
-        .d-flex.flex-column.g-2
-          .btn.d-flex.g-3.align-items-start(ld-each="file-info")
-            span &#8227;
+        //- slightly offset for better visual alignment
+        .d-flex.flex-column.g-2(style="transform:translate(0,-.1875em)")
+          .pl-3.d-flex.g-3.align-items-center(ld-each="file-info")
+            // use margin instead of padding to make it harder to be accidentally clicked
+            i.m-edit.i-trashcan.text-danger.text-sm.clickable.m-2(ld="delete")
             .text-left
               a(ld="detail",rel="noopener noreferrer",target="_blank")
                 div(ld="filename") ...
@@ -32,10 +34,9 @@ div
                     span(t) 上傳時間
                     span.mr-1 :
                     span(ld="time")
-
-            i.m-edit.i-trashcan.text-danger.text-sm.clickable(ld="delete")
-        .text-danger.btn(t,ld="no-file") 尚未上傳文件
+        .text-danger.btn(t,ld="no-file") 尚未上傳任何檔案
         .text-danger.btn.d-none.pl-4.text-left(t,ld="file-uploading")
+    plug(name="preview")
     .text-danger.m-edit.mb-2(ld="error-root")
       div(ld-each="error") #[i.i-exclamation-circle] #[span(ld="text")]
     .text-danger.text-sm.m-edit
