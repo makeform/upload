@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.6
+
+ - tweak layout for inline mode
+
+
 ## v1.0.5
 
  - fix bug: title class `d-flex` was incorrectly added twice, one of which should be `flex-wrap`.

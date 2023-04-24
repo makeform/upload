@@ -2,13 +2,14 @@ div
   style(type="text/css"): include:stylus index.styl
   script(type="@plotdb/block"): include:lsc index.ls
   .form-group(plug="widget",ld="base")
-    label.d-flex.align-items-end.flex-wrap
-      div(ld="display",data-display="block")
-        span(ld="label")
-        span.variant.text-sm.ml-2 (#[span(ld="variant")])
-        span.text-danger.ml-2(ld="is-required") *
-      .flex-grow-1
-      .m-edit: .text-danger.text-sm(ld="limitation")
+    div(ld="display",data-display="block")
+      label.d-flex.align-items-end.flex-wrap
+        div
+          span(ld="label")
+          span.variant.text-sm.ml-2 (#[span(ld="variant")])
+          span.text-danger.ml-2(ld="is-required") *
+        .flex-grow-1
+        .m-edit: .text-danger.text-sm(ld="limitation")
     .text-sm.text-muted(ld="display", data-display="block"): div(ld="desc", style="margin:-.6em 0 .7em")
     .d-flex.align-items-start.mb-2
       .m-edit.btn.btn-primary.btn-upload.mr-2.px-4.ld-ext-right(ld="button")

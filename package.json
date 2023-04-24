@@ -1,15 +1,13 @@
 {
   "name": "@makeform/upload",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "scripts": {},
   "keywords": [],
   "author": "zbryikt",
   "license": "MIT",
-  "dependencies": {
-    "@plotdb/srcbuild": "^0.0.65"
-  },
   "devDependencies": {
+    "@plotdb/srcbuild": "^0.0.66",
     "fedep": "^1.1.11"
   }
 }
