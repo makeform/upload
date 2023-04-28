@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.7
+
+ - bug fix: `上傳時間` should be `編輯時戳`
+
+
 ## v1.0.6
 
  - tweak layout for inline mode

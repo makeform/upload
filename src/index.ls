@@ -9,14 +9,14 @@ module.exports =
         "上傳中": "uploading"
         "尚未上傳任何檔案": "no file uploaded yet"
         "檔案大小": "File Size"
-        "上傳時間": "Upload Time"
+        "編輯時戳": "Last Modified"
       "zh-TW":
         "未命名的檔案": "未命名的檔案"
         "上傳": "上傳"
         "上傳中": "上傳中"
         "尚未上傳任何檔案": "尚未上傳任何檔案"
         "檔案大小": "檔案大小"
-        "上傳時間": "上傳時間"
+        "編輯時戳": "編輯時戳"
     dependencies: [
       {url: "https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js", async: false}
       {url: "https://cdn.jsdelivr.net/npm/moment-timezone@0.5.34/builds/moment-timezone-with-data.min.js"}
