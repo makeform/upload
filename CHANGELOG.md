@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.8
+
+ - precheck files against terms to prevent incompatible file from uploading
+
+
 ## v1.0.7
 
  - bug fix: `上傳時間` should be `編輯時戳`

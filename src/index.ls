@@ -10,6 +10,7 @@ module.exports =
         "尚未上傳任何檔案": "no file uploaded yet"
         "檔案大小": "File Size"
         "編輯時戳": "Last Modified"
+        "檔案規格不符": "Specifications of the file(s) to upload do not matched"
       "zh-TW":
         "未命名的檔案": "未命名的檔案"
         "上傳": "上傳"
@@ -17,6 +18,7 @@ module.exports =
         "尚未上傳任何檔案": "尚未上傳任何檔案"
         "檔案大小": "檔案大小"
         "編輯時戳": "編輯時戳"
+        "檔案規格不符": "欲上傳的檔案不符規格"
     dependencies: [
       {url: "https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js", async: false}
       {url: "https://cdn.jsdelivr.net/npm/moment-timezone@0.5.34/builds/moment-timezone-with-data.min.js"}
@@ -55,6 +57,22 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
               if !list.filter(-> !it.supported).length => return
               return Promise.reject new Error! <<< {name: \lderror, id: 1020}
             .then ~>
+              # check each file against terms other than count
+              ps = [node.files[i] for i from 0 til node.files.length]
+                .map (f) ~>
+                  f = {size: f.size, filename: f.name}
+                  ps = (@_meta.term or [])
+                    .map (t) ->
+                      # TODO we need to add sth like `precheck` flag in op
+                      # in hint block which op should be check in advance
+                      if /count/.exec(t.op.id) => return Promise.resolve true
+                      t.validate(f)
+                  # filter and check if this file fails in any term
+                  Promise.all ps .then -> it.filter(->!it).length > 0
+              # filter and return the count of files that fails in any term
+              Promise.all ps .then -> it.filter(->it).length
+            .then (failed-file-count) ~>
+              if failed-file-count => return Promise.reject new Error! <<< {name: \lderror, id: 1020}
               btn = view.get \button
               btn.classList.toggle \running, true
               if !@mod.info.config.multiple =>
@@ -85,7 +103,7 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
                   @fire \upload-failed, it
                   return Promise.reject it
             .catch ->
-              alert t("檔案不支援")
+              alert t("檔案規格不符")
               console.log it
 
       handler:
