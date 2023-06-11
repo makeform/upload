@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.10
+
+ - fix bug: missing 1.0.9 dist 
+
+
 ## v1.0.9
 
  - tweak `no file` hint style to separate from error
