@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.9
+
+ - tweak `no file` hint style to separate from error
+
+
 ## v1.0.8
 
  - precheck files against terms to prevent incompatible file from uploading
