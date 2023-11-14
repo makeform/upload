@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.11
+
+ - use `mf-note` to replace styling in note-related tag.
+
+
 ## v1.0.10
 
  - fix bug: missing 1.0.9 dist 

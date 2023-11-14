@@ -9,7 +9,7 @@ div
           span.variant.text-sm.ml-2 (#[span(ld="variant")])
           span.text-danger.ml-2(ld="is-required") *
         .flex-grow-1
-        .m-edit: .text-danger.text-sm(ld="limitation")
+        .m-edit: .mf-note.text-sm(ld="limitation")
     .text-sm.text-muted(ld="display", data-display="block"): div(ld="desc", style="margin:-.6em 0 .7em")
     .d-flex.align-items-start.mb-2
       .m-edit.btn.btn-primary.btn-upload.mr-2.px-4.ld-ext-right(ld="button")
@@ -40,5 +40,5 @@ div
     plug(name="preview")
     .text-danger.m-edit.mb-2(ld="error-root")
       div(ld-each="error") #[i.i-exclamation-circle] #[span(ld="text")]
-    .text-danger.text-sm.m-edit
+    .mf-note.text-sm.m-edit
       div(ld-each="note")
