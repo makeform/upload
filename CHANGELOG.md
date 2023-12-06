@@ -1,5 +1,12 @@
 # Change Logs
 
+## v1.0.12
+
+ - integrate code for uploading multiple / non-multiple files
+ - support `ext.detail` for child blocks that are able to anaylze different file format
+ - throw exception for all error except 1020 in uploading process
+
+
 ## v1.0.11
 
  - use `mf-note` to replace styling in note-related tag.

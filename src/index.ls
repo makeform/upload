@@ -58,53 +58,57 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
               return Promise.reject new Error! <<< {name: \lderror, id: 1020}
             .then ~>
               # check each file against terms other than count
-              ps = [node.files[i] for i from 0 til node.files.length]
-                .map (f) ~>
-                  f = {size: f.size, filename: f.name}
-                  ps = (@_meta.term or [])
-                    .map (t) ->
+              files = [node.files[i] for i from 0 til node.files.length]
+                .map (f) ~> f = {size: f.size, filename: f.name, blob: f}
+              (if ext.detail => ext.detail files else Promise.resolve(files))
+                .then (files) ~>
+                  ps = files.map (f) ~>
+                    ps = (@_meta.term or []).map (t) ->
                       # TODO we need to add sth like `precheck` flag in op
                       # in hint block which op should be check in advance
                       if /count/.exec(t.op.id) => return Promise.resolve true
                       t.validate(f)
-                  # filter and check if this file fails in any term
-                  Promise.all ps .then -> it.filter(->!it).length > 0
-              # filter and return the count of files that fails in any term
-              Promise.all ps .then -> it.filter(->it).length
+                    # filter and check if this file fails in any term
+                    Promise.all ps .then -> it.filter(->!it).length > 0
+                  # filter and return the count of files that fails in any term
+                  Promise.all ps .then -> it.filter(->it).length
             .then (failed-file-count) ~>
               if failed-file-count => return Promise.reject new Error! <<< {name: \lderror, id: 1020}
               btn = view.get \button
               btn.classList.toggle \running, true
-              if !@mod.info.config.multiple =>
-                file = (node.files or []).0
-                p = if !file => Promise.resolve!then -> lc.file = null
-                else
-                  _uploading true, 0
-                  @mod.child._upload {file, progress} .then -> lc.file = it
-              else
-                _ = (idx) ~>
-                  file = (node.files or [])[idx]
-                  if !file => return Promise.resolve!
-                  _uploading true, 0
-                  @mod.child._upload {file, progress} .then (f) ->
+              files = if !@mod.info.config.multiple => [(node.files or []).0].filter(->it)
+              else (node.files or [])
+              _ = (idx) ~>
+                file = files[idx]
+                if !file => return Promise.resolve!
+                _uploading true, 0
+                @mod.child._upload {file, progress}
+                  .then (f) ->
+                    f = [{} <<< f <<< {blob: file}]
+                    (if ext.detail => ext.detail(f) else Promise.resolve f)
+                  .then (f) ->
+                    f = f.0
+                    delete f.blob
                     if !lc.file => lc.file = []
                     else if !Array.isArray(lc.file) => lc.file = [lc.file]
                     lc.file.push f
                     _(idx + 1)
-                p = _ 0
-              p
+              _(0)
                 .finally ->
                   node.value = null
                   btn.classList.toggle \running, false
                   _uploading false, 1
-                .then ~> @value lc.file
+                .then ~>
+                  if !@mod.info.config.multiple => lc.file = lc.file.0
+                  @value lc.file
                 .then ~> view.render <[file-info no-file]>
                 .catch ~>
                   @fire \upload-failed, it
                   return Promise.reject it
-            .catch ->
+            .catch (e) ->
+              if lderror.id(e) != 1020 => throw e
               alert t("檔案規格不符")
-              console.log it
+              console.log e
 
       handler:
         "file-uploading": ({node}) ->
