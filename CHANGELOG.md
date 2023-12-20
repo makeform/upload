@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.13
+
+ - fix bug: exception when canceling file selection after blocked upload by rule, because we didn't clear input node value after 1020 error.
+
+
 ## v1.0.12
 
  - integrate code for uploading multiple / non-multiple files

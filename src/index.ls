@@ -106,6 +106,7 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
                   @fire \upload-failed, it
                   return Promise.reject it
             .catch (e) ->
+              node.value = null
               if lderror.id(e) != 1020 => throw e
               alert t("檔案規格不符")
               console.log e
