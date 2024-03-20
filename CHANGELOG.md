@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.14
+
+ - fix bug: old file isn't replaced whtn a new file is uploaded. newly uploaded file in single file mode should overwrite the original file.
+
+
 ## v1.0.13
 
  - fix bug: exception when canceling file selection after blocked upload by rule, because we didn't clear input node value after 1020 error.

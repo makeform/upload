@@ -99,7 +99,7 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
                   btn.classList.toggle \running, false
                   _uploading false, 1
                 .then ~>
-                  if !@mod.info.config.multiple => lc.file = lc.file.0
+                  if !@mod.info.config.multiple => lc.file = lc.file[* - 1]
                   @value lc.file
                 .then ~> view.render <[file-info no-file]>
                 .catch ~>
