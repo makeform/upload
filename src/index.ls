@@ -55,7 +55,7 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
           )
             .then (list) ->
               if !list.filter(-> !it.supported).length => return
-              return Promise.reject new Error! <<< {name: \lderror, id: 1020}
+              return Promise.reject new Error! <<< {name: \lderror, id: 1020, message: list.0.message or ''}
             .then ~>
               # check each file against terms other than count
               files = [node.files[i] for i from 0 til node.files.length]
@@ -108,7 +108,7 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
             .catch (e) ->
               node.value = null
               if lderror.id(e) != 1020 => throw e
-              alert t("檔案規格不符")
+              alert if e.message => that else t("檔案規格不符")
               console.log e
 
       handler:

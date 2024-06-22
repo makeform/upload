@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.15
+
+ - show custom message when it's available in lderror 1020.
+
+
 ## v1.0.14
 
  - fix bug: old file isn't replaced whtn a new file is uploaded. newly uploaded file in single file mode should overwrite the original file.
