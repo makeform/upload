@@ -11,15 +11,20 @@ div
         .flex-grow-1
         .m-edit: .mf-note.text-sm(ld="limitation")
     .text-sm.text-muted(ld="display", data-display="block"): div(ld="desc", style="margin:-.6em 0 .7em")
-    .d-flex.align-items-start.mb-2
-      .m-edit.btn.btn-primary.btn-upload.mr-2.px-4.ld-ext-right(ld="button")
+    .d-flex.align-items-start.mb-2.flex-wrap.g-2
+      .m-edit.btn.btn-primary.btn-upload.px-4.ld-ext-right(ld="button",style="flex:1 0 auto;width:6em")
         span(t) 上傳
         input(type="file",ld="input")
         .ld.ld-spin.ld-spinner
-      .d-flex.flex-column
+      //- we only want btn to grow when wrap. use a large flex-grow to suppress btn
+      //- max-width:100% is required to limit its width to prevent overflow and make content wrap
+      //- min-width to preserve a minimal common size to align layout between different upload widgets
+      //- 20em is an empirical value for common size of file size / last modified content width
+      .d-flex.flex-column.align-items-start(
+      style="flex:1000 0 auto;max-width:100%;width:fit-content;min-width:min(20em,100%)")
         //- slightly offset for better visual alignment
         .d-flex.flex-column.g-2(style="transform:translate(0,-.1875em)")
-          .pl-3.d-flex.g-3.align-items-center(ld-each="file-info")
+          .d-flex.g-1.align-items-center(ld-each="file-info")
             // use margin instead of padding to make it harder to be accidentally clicked
             i.m-edit.i-trashcan.text-danger.text-sm.clickable.m-2(ld="delete")
             .text-left
