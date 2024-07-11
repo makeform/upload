@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.17
+
+ - tweak upload button width based on loading status
+
+
 ## v1.0.16
 
  - tweak layout between upload button and file description and in different size
