@@ -30,16 +30,23 @@ div
             .text-left
               a(ld="detail",rel="noopener noreferrer",target="_blank")
                 div(ld="filename") ...
-                .d-flex.flex-wrap(style="font-size:12px")
-                  div
-                    span(t) 檔案大小
-                    span.mr-1 :
-                    span(ld="size")
-                  .mx-2 /
-                  div
-                    span(t) 編輯時戳
-                    span.mr-1 :
-                    span(ld="time")
+
+              .d-flex.flex-wrap(style="font-size:12px")
+                div
+                  span.mr-1(t) 檔案大小
+                  span(ld="size")
+                .mx-2 /
+                .has-tips.clickable.dropdown-toggle(ld="showtime")
+                  span(t) 編輯時戳
+                  .hover-tip.tip-fit.bottom.py-1
+                    span.mr-1(ld="filemodifiedtime")
+                    span.text-sm(ld="filemodifiedtime-tz",style="opacity:0.8")
+                .mx-2 /
+                .has-tips.clickable.dropdown-toggle(ld="has-uploadtime showtime")
+                  span(t) 上傳時戳
+                  .hover-tip.tip-fit.bottom.py-1
+                    span.mr-1(ld="uploadtime")
+                    span.text-sm(ld="uploadtime-tz",style="opacity:0.8")
         .text-secondary.btn(t,ld="no-file") 尚未上傳任何檔案
         .text-danger.btn.d-none.pl-4.text-left(t,ld="file-uploading")
     plug(name="preview")

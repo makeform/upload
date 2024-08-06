@@ -10,6 +10,7 @@ module.exports =
         "尚未上傳任何檔案": "no file uploaded yet"
         "檔案大小": "File Size"
         "編輯時戳": "Last Modified"
+        "上傳時戳": "Upload Time"
         "檔案規格不符": "Specifications of the file(s) to upload do not matched"
       "zh-TW":
         "未命名的檔案": "未命名的檔案"
@@ -18,6 +19,7 @@ module.exports =
         "尚未上傳任何檔案": "尚未上傳任何檔案"
         "檔案大小": "檔案大小"
         "編輯時戳": "編輯時戳"
+        "上傳時戳": "上傳時戳"
         "檔案規格不符": "欲上傳的檔案不符規格"
     dependencies: [
       {url: "https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js", async: false}
@@ -84,7 +86,7 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
                 _uploading true, 0
                 @mod.child._upload {file, progress}
                   .then (f) ->
-                    f = [{} <<< f <<< {blob: file}]
+                    f = [{} <<< f <<< {blob: file, uploadtime: new Date!getTime!}]
                     (if ext.detail => ext.detail(f) else Promise.resolve f)
                   .then (f) ->
                     f = f.0
@@ -126,15 +128,30 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
             ret.filter -> it
 
           view:
-            action: click: delete: ({ctx}) ~>
-              if !!@mod.info.meta.readonly => return
-              Promise.resolve!
-                .then ~>
-                  if !Array.isArray(lc.file) => return @value(lc.file = null)
-                  if !~(idx = lc.file.indexOf(ctx)) => return
-                  lc.file.splice idx, 1
-                  @value lc.file
-                .then ~> view.render <[file-info no-file]>
+            action: click:
+              showtime: ({node, ctx}) ~>
+                show = !node.classList.contains(\manual)
+                node.classList.toggle \manual, show
+                node.classList.toggle \tip-on, show
+              delete: ({ctx}) ~>
+                if !!@mod.info.meta.readonly => return
+                Promise.resolve!
+                  .then ~>
+                    if !Array.isArray(lc.file) => return @value(lc.file = null)
+                    if !~(idx = lc.file.indexOf(ctx)) => return
+                    lc.file.splice idx, 1
+                    @value lc.file
+                  .then ~> view.render <[file-info no-file]>
+            text:
+              filemodifiedtime: ({node, ctx}) ->
+                moment(ctx.modifiedtime).tz("Asia/Taipei").format("YYYY-MM-DD HH:mm:ss")
+              uploadtime: ({node, ctx}) ->
+                moment(ctx.uploadtime).tz("Asia/Taipei").format("YYYY-MM-DD HH:mm:ss")
+              "filemodifiedtime-tz": ({node, ctx}) ->
+                moment(ctx.modifiedtime).tz("Asia/Taipei").format("Z")
+              "uploadtime-tz": ({node, ctx}) ->
+                moment(ctx.uploadtime).tz("Asia/Taipei").format("Z")
+
             handler:
               delete: ({node}) ~>
                 node.classList.toggle \d-none, !!@mod.info.meta.readonly
@@ -145,8 +162,8 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
                 else if size < (1024 * 1024 * 1024) => "#{(size/1048576).toFixed(2)}MB"
                 else "#{(size/(1024 * 1024 * 1024)).toFixed(2)}GB"
                 node.innerText = size
-              time: ({node, ctx}) ->
-                node.innerText = moment(ctx.modifiedtime).tz("Asia/Taipei").format("YYYY-MM-DD hh:mm:ss")
+              "has-uploadtime": ({node, ctx}) -> node.classList.toggle \d-none, !ctx.uploadtime
+
               filename: ({node, ctx}) ->
                 if !ctx => node.innerText = t("尚未上傳任何檔案")
                 name = ctx.filename or t("未命名的檔案")

@@ -1,5 +1,11 @@
 # Change Logs
 
+## v1.0.18
+
+ - keep track of uploadtime information
+ - use popup for modifiedtime and uploadtime
+
+
 ## v1.0.17
 
  - tweak upload button width based on loading status
