@@ -41,12 +41,13 @@ div
                   .hover-tip.tip-fit.bottom.py-1
                     span.mr-1(ld="filemodifiedtime")
                     span.text-sm(ld="filemodifiedtime-tz",style="opacity:0.8")
-                .mx-2 /
-                .has-tips.clickable.dropdown-toggle(ld="has-uploadtime showtime")
-                  span(t) 上傳時戳
-                  .hover-tip.tip-fit.bottom.py-1
-                    span.mr-1(ld="uploadtime")
-                    span.text-sm(ld="uploadtime-tz",style="opacity:0.8")
+                div(ld="has-uploadtime")
+                  .mx-2 /
+                  .has-tips.clickable.dropdown-toggle(ld="showtime")
+                    span(t) 上傳時戳
+                    .hover-tip.tip-fit.bottom.py-1
+                      span.mr-1(ld="uploadtime")
+                      span.text-sm(ld="uploadtime-tz",style="opacity:0.8")
         .text-secondary.btn(t,ld="no-file") 尚未上傳任何檔案
         .text-danger.btn.d-none.pl-4.text-left(t,ld="file-uploading")
     plug(name="preview")

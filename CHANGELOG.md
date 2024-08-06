@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.19
+
+ - tweak uploadtime layout
+
+
 ## v1.0.18
 
  - keep track of uploadtime information
