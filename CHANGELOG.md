@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.21
+
+ - support `render` in ext api option
+
+
 ## v1.0.20
 
  - tweak uploadtime layout

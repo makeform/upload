@@ -190,6 +190,7 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
           node.classList.toggle \disabled, ret
 
   render: ->
+    if ext.render => ext.render.apply  @
     if @mod.child.view => @mod.child.view.render!
     if ext.view => ext.view.render!
   adapt: (opt) ->
