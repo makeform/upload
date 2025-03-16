@@ -1,16 +1,7 @@
 div
   style(type="text/css"): include:stylus index.styl
   script(type="@plotdb/block"): include:lsc index.ls
-  .form-group(plug="widget",ld="base")
-    div(ld="display",data-display="block")
-      label.d-flex.align-items-end.flex-wrap
-        div
-          span(ld="label")
-          span.variant.text-sm.ml-2 (#[span(ld="variant")])
-          span.text-danger.ml-2(ld="is-required") *
-        .flex-grow-1
-        .m-edit: .mf-note.text-sm(ld="limitation")
-    .text-sm.text-muted(ld="display", data-display="block"): div(ld="desc", style="margin:-.6em 0 .7em")
+  div(plug="body")
     .d-flex.align-items-start.mb-2.flex-wrap.g-2
       .m-edit.btn.btn-primary.btn-upload.px-2.ld-ext-right(ld="button")
         span(t) 上傳
@@ -53,5 +44,3 @@ div
     plug(name="preview")
     .text-danger.m-edit.mb-2(ld="error-root")
       div(ld-each="error") #[i.i-exclamation-circle] #[span(ld="text")]
-    .mf-note.text-sm.m-edit
-      div(ld-each="note")
