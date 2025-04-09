@@ -45,6 +45,13 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
         ext.view.setCtx lc
         ext.view.render!
     progress = -> _uploading true, it.percent
+    sanitize-filename = (fn = "") ->
+      return fn
+        .replace(/[/\\?%*:|"<>]/g, '')  # remove illegal chars
+        .replace(/\.+/g, '.')           # prevent repeated dot
+        .replace(/^(\.+)/, '')          # no prefix dot
+        .substring(0, 100)              # length limitation
+
     @mod.child.view = view = new ldview do
       root: root
       action:
@@ -52,7 +59,7 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
           if !@mod.child._upload => return
           p = Promise.all(
             Array.from(node.files).map (f) ~>
-             if !ext.is-supported => {supported: true} 
+             if !ext.is-supported => {supported: true}
              else ext.is-supported f
           )
             .then (list) ->
@@ -170,8 +177,16 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
                 if name.length > 40 => name = name.substring(0,40) + "..."
                 node.innerText = name
               detail: ({node, ctx}) ->
-                if ctx => node.setAttribute \href, ctx.url
-                else node.removeAttribute \href
+                if ctx =>
+                  fn = sanitize-filename(ctx.filename)
+                  node.setAttribute \href, ctx.url
+                  # this is just a hint, since ctx.url may result in an http 302 redirect 
+                  # that sends the browser to another website with a different content-disposition header.
+                  node.setAttribute \download, (fn or t('未命名的檔案'))
+                else
+                  node.removeAttribute \href
+                  node.removeAttribute \download
+
                 node.classList.toggle \text-danger, !ctx
 
         input: ({node}) ~>
