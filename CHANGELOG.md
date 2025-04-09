@@ -1,5 +1,10 @@
 # Change Logs
 
+## v2.0.2
+
+ - fix bug: remove download filename since it prevents PDF directly preview in browser new tab
+
+ 
 ## v2.0.1
 
  - hint browser about download filename

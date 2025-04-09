@@ -182,10 +182,12 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
                   node.setAttribute \href, ctx.url
                   # this is just a hint, since ctx.url may result in an http 302 redirect 
                   # that sends the browser to another website with a different content-disposition header.
-                  node.setAttribute \download, (fn or t('未命名的檔案'))
+                  # however, this prevent new tab to be opened if it's a PDF.
+                  # thus we don't add this, and left this for reference.
+                  # node.setAttribute \download, (fn or t('未命名的檔案'))
                 else
                   node.removeAttribute \href
-                  node.removeAttribute \download
+                  # node.removeAttribute \download
 
                 node.classList.toggle \text-danger, !ctx
 
