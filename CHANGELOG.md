@@ -1,5 +1,10 @@
 # Change Logs
 
+## v2.0.3
+
+ - use concise error message with reasons for each file when term check fails
+
+
 ## v2.0.2
 
  - fix bug: remove download filename since it prevents PDF directly preview in browser new tab

@@ -12,6 +12,7 @@ module.exports =
         "編輯時戳": "Last Modified"
         "上傳時戳": "Upload Time"
         "檔案規格不符": "Specifications of the file(s) to upload do not matched"
+        "不支援的檔案": "Format of this file isn't supported by this widget"
       "zh-TW":
         "未命名的檔案": "未命名的檔案"
         "上傳": "上傳"
@@ -21,6 +22,7 @@ module.exports =
         "編輯時戳": "編輯時戳"
         "上傳時戳": "上傳時戳"
         "檔案規格不符": "欲上傳的檔案不符規格"
+        "不支援的檔案": "欄位不支援此檔案格式"
     dependencies: [
       {url: "https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js", async: false}
       {url: "https://cdn.jsdelivr.net/npm/moment-timezone@0.5.34/builds/moment-timezone-with-data.min.js"}
@@ -64,7 +66,12 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
           )
             .then (list) ->
               if !list.filter(-> !it.supported).length => return
-              return Promise.reject new Error! <<< {name: \lderror, id: 1020, message: list.0.message or ''}
+              msg = Array.from(node.files)
+                .filter (f, i) -> !list[i].supported
+                .map (f, i) -> "#{f.name}: #{list[i].message or t("not supported")}"
+                .join(\\n)
+                msg = "#{t \檔案規格不符}:\n#msg"
+              return Promise.reject new Error! <<< {name: \lderror, id: 1020, message: msg or ''}
             .then ~>
               # check each file against terms other than count
               files = [node.files[i] for i from 0 til node.files.length]
@@ -72,17 +79,30 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
               (if ext.detail => ext.detail files else Promise.resolve(files))
                 .then (files) ~>
                   ps = files.map (f) ~>
-                    ps = (@_meta.term or []).map (t) ->
+                    ts = @_meta.term or []
+                    # filter and check if this file fails in any term
+                    ps = ts.map (t) ->
                       # TODO we need to add sth like `precheck` flag in op
                       # in hint block which op should be check in advance
                       if /count/.exec(t.op.id) => return Promise.resolve true
                       t.validate(f)
-                    # filter and check if this file fails in any term
-                    Promise.all ps .then -> it.filter(->!it).length > 0
-                  # filter and return the count of files that fails in any term
-                  Promise.all ps .then -> it.filter(->it).length
-            .then (failed-file-count) ~>
-              if failed-file-count => return Promise.reject new Error! <<< {name: \lderror, id: 1020}
+                    Promise.all ps .then (rets) ->
+                      return rets
+                        .map (d, idx) -> [t(ts[idx].msg or \檔案規格不符), d]
+                        .filter -> !it.1
+                        .map -> it.0
+                        .join('; ')
+                  Promise.all ps .then (rets) ->
+                    return rets
+                      .map (msg, idx) -> ["#{files[idx].filename}: #{msg}", msg]
+                      .filter -> it.1
+                      .map -> it.0
+                      .join(\\n)
+            .then (msg) ~>
+              # if there is msg, it means term check failure. simply reject
+              if msg =>
+                msg = "#{t \檔案規格不符}:\n#msg"
+                return Promise.reject new Error! <<< {name: \lderror, id: 1020, message: msg}
               btn = view.get \button
               btn.classList.toggle \running, true
               files = if !@mod.info.config.multiple => [(node.files or []).0].filter(->it)
