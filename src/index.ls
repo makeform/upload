@@ -2,6 +2,7 @@ module.exports =
   pkg:
     name: "@makeform/upload"
     extend: name: '@makeform/common'
+    host: name: \@grantdash/composer
     i18n:
       en:
         "未命名的檔案": "unnamed file"
@@ -13,6 +14,7 @@ module.exports =
         "上傳時戳": "Upload Time"
         "檔案規格不符": "Specifications of the file(s) to upload do not matched"
         "不支援的檔案": "Format of this file isn't supported by this widget"
+        config: multiple: name: "support multi-files", desc: "user can upload multiple files if enabled"
       "zh-TW":
         "未命名的檔案": "未命名的檔案"
         "上傳": "上傳"
@@ -23,18 +25,23 @@ module.exports =
         "上傳時戳": "上傳時戳"
         "檔案規格不符": "欲上傳的檔案不符規格"
         "不支援的檔案": "欄位不支援此檔案格式"
+        config: multiple: name: "支援多檔案上傳", desc: "若啟用，用戶可選取多個檔案並上傳"
     dependencies: [
       {url: "https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js", async: false}
       {url: "https://cdn.jsdelivr.net/npm/moment-timezone@0.5.34/builds/moment-timezone-with-data.min.js"}
     ]
-
   ext: -> @_ext <<< it
   init: (opt) ->
     @_ext = {}
-    opt.pubsub.fire \subinit, mod: mod(opt, @_ext)
+    opt.pubsub.on \inited, (o = {}) ~> @ <<< o
+    opt.pubsub.fire \subinit, mod: mod.call @, opt, @_ext
+  client: (bid) ->
+    meta: config:
+      multiple: type: \boolean, name: 'config.multiple.name', desc: 'config.multiple.desc'
+    render: ~> @lc.view.render!
 mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
   {ldview, moment} = ctx
-  lc = {uploading: false}
+  @lc = lc = {uploading: false}
   init: ->
     _uploading = (v, p) ->
       lc <<< {uploading: v, percent: p}
@@ -54,7 +61,7 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
         .replace(/^(\.+)/, '')          # no prefix dot
         .substring(0, 100)              # length limitation
 
-    @mod.child.view = view = new ldview do
+    lc.view = @mod.child.view = view = new ldview do
       root: root
       action:
         change: input: ({node}) ~>

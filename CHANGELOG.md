@@ -1,5 +1,10 @@
 # Change Logs
 
+## v2.1.0
+
+ - support @grantdash/composer host
+
+
 ## v2.0.3
 
  - use concise error message with reasons for each file when term check fails
