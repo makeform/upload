@@ -27,8 +27,8 @@ module.exports =
         "不支援的檔案": "欄位不支援此檔案格式"
         config: multiple: name: "支援多檔案上傳", desc: "若啟用，用戶可選取多個檔案並上傳"
     dependencies: [
-      {url: "https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js", async: false}
-      {url: "https://cdn.jsdelivr.net/npm/moment-timezone@0.5.34/builds/moment-timezone-with-data.min.js"}
+    * name: \moment, path: \min/moment.min.js, async: false
+    * name: \moment-timezone, path: \builds/moment-timezone-with-data.min.js
     ]
   ext: -> @_ext <<< it
   init: (opt) ->
