@@ -1,5 +1,10 @@
 # Change Logs
 
+## v2.0.4
+
+ - add link for downloading
+
+
 ## v2.0.3
 
  - use concise error message with reasons for each file when term check fails
