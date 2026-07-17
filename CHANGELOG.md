@@ -1,18 +1,8 @@
 # Change Logs
 
-## v2.2.0
+## v2.0.4
 
  - add link for downloading
-
-
-## v2.1.1
-
- - use local moment lib
-
-
-## v2.1.0
-
- - support @grantdash/composer host
 
 
 ## v2.0.3
