@@ -13,6 +13,8 @@ module.exports =
         "上傳時戳": "Upload Time"
         "檔案規格不符": "Specifications of the file(s) to upload do not matched"
         "不支援的檔案": "Format of this file isn't supported by this widget"
+        "下載": "Download"
+        config: multiple: name: "support multi-files", desc: "user can upload multiple files if enabled"
       "zh-TW":
         "未命名的檔案": "未命名的檔案"
         "上傳": "上傳"
@@ -23,6 +25,8 @@ module.exports =
         "上傳時戳": "上傳時戳"
         "檔案規格不符": "欲上傳的檔案不符規格"
         "不支援的檔案": "欄位不支援此檔案格式"
+        "下載": "下載"
+        config: multiple: name: "支援多檔案上傳", desc: "若啟用，用戶可選取多個檔案並上傳"
     dependencies: [
       {url: "https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js", async: false}
       {url: "https://cdn.jsdelivr.net/npm/moment-timezone@0.5.34/builds/moment-timezone-with-data.min.js"}
@@ -182,6 +186,15 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
             handler:
               delete: ({node}) ~>
                 node.classList.toggle \d-none, !!@mod.info.meta.readonly
+              download: ({node, ctx}) ->
+                if ctx and ctx.url =>
+                  fn = sanitize-filename(ctx.filename) or t("未命名的檔案")
+                  sep = if ctx.url.indexOf('?') >= 0 => '&' else '?'
+                  node.setAttribute \href, "#{ctx.url}#{sep}download=true"
+                  node.setAttribute \download, fn
+                else
+                  node.removeAttribute \href
+                  node.removeAttribute \download
               size: ({node, ctx}) ->
                 size = ctx.size or 0
                 size = if size < 1024 => "#{size}bytes"
