@@ -1,5 +1,10 @@
 # Change Logs
 
+## v2.2.0
+
+ - add link for downloading
+
+
 ## v2.1.1
 
  - use local moment lib
