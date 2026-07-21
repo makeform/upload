@@ -1,5 +1,10 @@
 # Change Logs
 
+## v2.2.1 (upcoming)
+
+ - tweak metadata separator margin
+
+
 ## v2.2.0
 
  - add link for downloading
