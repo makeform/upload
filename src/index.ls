@@ -11,6 +11,8 @@ module.exports =
         "檔案大小": "File Size"
         "編輯時戳": "Last Modified"
         "上傳時戳": "Upload Time"
+        "時戳": "Time of"
+        "編輯": "Modified"
         "檔案規格不符": "Specifications of the file(s) to upload do not matched"
         "不支援的檔案": "Format of this file isn't supported by this widget"
         "下載": "Download"
@@ -23,6 +25,8 @@ module.exports =
         "檔案大小": "檔案大小"
         "編輯時戳": "編輯時戳"
         "上傳時戳": "上傳時戳"
+        "時戳": "時戳"
+        "編輯": "編輯"
         "檔案規格不符": "欲上傳的檔案不符規格"
         "不支援的檔案": "欄位不支援此檔案格式"
         "下載": "下載"
@@ -188,13 +192,10 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
                 node.classList.toggle \d-none, !!@mod.info.meta.readonly
               download: ({node, ctx}) ->
                 if ctx and ctx.url =>
-                  fn = sanitize-filename(ctx.filename) or t("未命名的檔案")
                   sep = if ctx.url.indexOf('?') >= 0 => '&' else '?'
                   node.setAttribute \href, "#{ctx.url}#{sep}download=true"
-                  node.setAttribute \download, fn
                 else
                   node.removeAttribute \href
-                  node.removeAttribute \download
               size: ({node, ctx}) ->
                 size = ctx.size or 0
                 size = if size < 1024 => "#{size}bytes"
