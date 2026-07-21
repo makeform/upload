@@ -1,8 +1,10 @@
 # Change Logs
 
-## v2.2.1 (upcoming)
+## v2.2.1
 
  - tweak metadata separator margin
+ - tweak metadata wording for layout
+ - remove `download` attr from download link; rely on server header to prevent beforeunload warning
 
 
 ## v2.2.0
