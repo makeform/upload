@@ -1,5 +1,12 @@
 # Change Logs
 
+## v2.3.0
+
+ - features:
+   - support drag-and-drop file upload; dropped files go through the same validation and upload flow as the file input
+   - show a drop hint overlay while dragging files over the widget (i18n: zh-TW / en)
+
+
 ## v2.2.1
 
  - tweak metadata separator margin
