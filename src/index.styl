@@ -6,3 +6,19 @@
   flex: 1 0 auto
 .btn-upload.ld-ext-right.running
   width: 6.5em
+.drag-over
+  position: relative
+.drop-hint
+  display: none
+  pointer-events: none
+  position: absolute
+  inset: 0
+  z-index: var(--z-float)
+  align-items: center
+  justify-content: center
+  outline: 3px solid rgba(0,0,0,.3)
+  border-radius: .25em
+  background: rgba(0,0,0,.3)
+  color: rgba(255,255,255, .9)
+.drag-over .drop-hint
+  display: flex

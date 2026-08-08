@@ -17,6 +17,7 @@ module.exports =
         "檔案規格不符": "Specifications of the file(s) to upload do not matched"
         "不支援的檔案": "Format of this file isn't supported by this widget"
         "下載": "Download"
+        "拖放檔案以上傳": "Drop files here to upload"
         config: multiple: name: "support multi-files", desc: "user can upload multiple files if enabled"
       "zh-TW":
         "未命名的檔案": "未命名的檔案"
@@ -31,6 +32,7 @@ module.exports =
         "檔案規格不符": "欲上傳的檔案不符規格"
         "不支援的檔案": "欄位不支援此檔案格式"
         "下載": "下載"
+        "拖放檔案以上傳": "拖放檔案以上傳"
         config: multiple: name: "支援多檔案上傳", desc: "若啟用，用戶可選取多個檔案並上傳"
     dependencies: [
     * name: \moment, path: \min/moment.min.js, async: false
@@ -67,10 +69,38 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
         .replace(/^(\.+)/, '')          # no prefix dot
         .substring(0, 100)              # length limitation
 
+    lc <<< {drag-depth: 0, drag-over: false}
+    drag-has-files = (e) -> Array.from((e.dataTransfer or {}).types or []).indexOf(\Files) >= 0
+    can-upload = ~> !!@mod.child._upload and !@mod.info.meta.readonly
+
     lc.view = @mod.child.view = view = new ldview do
       root: root
       action:
-        change: input: ({node}) ~>
+        # drag and drop support. we reuse `do-upload` from the file input below,
+        # so terms (e.g., extension / size) are still validated for dropped files.
+        dragenter: "@": ({evt}) ~>
+          if !drag-has-files(evt) or !can-upload! => return
+          evt.preventDefault!
+          lc.drag-depth = lc.drag-depth + 1
+          lc.drag-over = true
+          view.render \dropzone
+        dragover: "@": ({evt}) ~>
+          if !drag-has-files(evt) or !can-upload! => return
+          evt.preventDefault!
+          evt.dataTransfer.dropEffect = \copy
+        dragleave: "@": ~>
+          lc.drag-depth = Math.max(0, lc.drag-depth - 1)
+          if !lc.drag-depth =>
+            lc.drag-over = false
+            view.render \dropzone
+        drop: "@": ({evt}) ~>
+          lc.drag-depth = 0
+          lc.drag-over = false
+          view.render \dropzone
+          if !drag-has-files(evt) or !can-upload! => return
+          evt.preventDefault!
+          do-upload node: {files: evt.dataTransfer.files}
+        change: input: do-upload = ({node}) ~>
           if !@mod.child._upload => return
           p = Promise.all(
             Array.from(node.files).map (f) ~>
@@ -154,6 +184,8 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
               console.log e
 
       handler:
+        dropzone: ({node}) -> node.classList.toggle \drag-over, !!lc.drag-over
+
         "file-uploading": ({node}) ->
           node.classList.toggle \d-none, !lc.uploading
           node.innerText = "#{t '上傳中'} / #{Math.floor((lc.percent or 0) * 10000)/100}%"
