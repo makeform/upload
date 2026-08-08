@@ -1,6 +1,6 @@
 # Change Logs
 
-## master
+## v2.3.0
 
  - features:
    - support drag-and-drop file upload; dropped files go through the same validation and upload flow as the file input
