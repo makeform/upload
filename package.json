@@ -7,6 +7,7 @@
   "author": "zbryikt",
   "license": "MIT",
   "devDependencies": {
+    "@plotdb/guides": "github:plotdb/guides#master",
     "@plotdb/srcbuild": "^0.0.70",
     "fedep": "^1.7.3"
   }
