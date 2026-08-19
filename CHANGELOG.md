@@ -1,5 +1,10 @@
 # Change Logs
 
+## v2.3.1
+
+ - upgrade dependencies
+
+
 ## v2.3.0
 
  - features:
