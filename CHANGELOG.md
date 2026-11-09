@@ -1,5 +1,14 @@
 # Change Logs
 
+## v2.3.2
+
+ - tweaks:
+   - reject folders dropped into the widget, with a hint (i18n: zh-TW / en)
+   - reject multiple files dropped into a single-file widget, with a hint (i18n: zh-TW / en)
+ - bug fix:
+   - snapshot dropped files during the drop event, since `dataTransfer.files` may be emptied before the async upload flow reads it
+
+
 ## v2.3.1
 
  - upgrade dependencies
