@@ -17,6 +17,8 @@ module.exports =
         "不支援的檔案": "Format of this file isn't supported by this widget"
         "下載": "Download"
         "拖放檔案以上傳": "Drop files here to upload"
+        "不支援上傳資料夾": "Folders can't be uploaded. Please select files instead"
+        "僅能上傳一個檔案": "Only one file can be uploaded to this field"
         config: multiple: name: "support multi-files", desc: "user can upload multiple files if enabled"
       "zh-TW":
         "未命名的檔案": "未命名的檔案"
@@ -32,6 +34,8 @@ module.exports =
         "不支援的檔案": "欄位不支援此檔案格式"
         "下載": "下載"
         "拖放檔案以上傳": "拖放檔案以上傳"
+        "不支援上傳資料夾": "不支援上傳資料夾，請改選檔案"
+        "僅能上傳一個檔案": "此欄位僅能上傳一個檔案"
         config: multiple: name: "支援多檔案上傳", desc: "若啟用，用戶可選取多個檔案並上傳"
     dependencies: [
       {url: "https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js", async: false}
@@ -94,7 +98,14 @@ mod = ({root, ctx, data, parent, pubsub, t, i18n}, ext) ->
           view.render \dropzone
           if !drag-has-files(evt) or !can-upload! => return
           evt.preventDefault!
-          do-upload node: {files: evt.dataTransfer.files}
+          # dataTransfer is only readable during the event, while `do-upload` reads files asynchronously.
+          # thus we take a snapshot here, and check for folders ( only detectable via items ) here too.
+          items = Array.from(evt.dataTransfer.items or [])
+          has-folder = items.some -> it.webkitGetAsEntry and (it.webkitGetAsEntry! or {}).isDirectory
+          files = Array.from(evt.dataTransfer.files)
+          if has-folder => return alert t("不支援上傳資料夾")
+          if !@mod.info.config.multiple and files.length > 1 => return alert t("僅能上傳一個檔案")
+          do-upload node: {files}
         change: input: do-upload = ({node}) ~>
           if !@mod.child._upload => return
           p = Promise.all(
