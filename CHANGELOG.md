@@ -1,5 +1,17 @@
 # Change Logs
 
+## v2.0.6
+
+ - features:
+   - support drag-and-drop file upload; dropped files go through the same validation and upload flow as the file input
+   - show a drop hint overlay while dragging files over the widget (i18n: zh-TW / en)
+ - tweaks:
+   - reject folders dropped into the widget, with a hint (i18n: zh-TW / en)
+   - reject multiple files dropped into a single-file widget, with a hint (i18n: zh-TW / en)
+ - bug fix:
+   - snapshot dropped files during the drop event, since `dataTransfer.files` may be emptied before the async upload flow reads it
+
+
 ## v2.0.5
 
  - tweak metadata separator margin
