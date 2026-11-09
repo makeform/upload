@@ -1,7 +1,8 @@
 div
   style(type="text/css"): include:stylus index.styl
   script(type="@plotdb/block"): include:lsc index.ls
-  div(plug="body")
+  div(plug="body",ld="dropzone")
+    .drop-hint: span(t) 拖放檔案以上傳
     .d-flex.align-items-start.mb-2.flex-wrap.g-2
       .m-edit.btn.btn-primary.btn-upload.px-2.ld-ext-right(ld="button")
         span(t) 上傳
