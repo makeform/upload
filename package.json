@@ -1,1 +1,1 @@
-{"name":"@makeform/upload","version":"2.3.2","description":"","scripts":{},"keywords":[],"author":"zbryikt","license":"MIT","devDependencies":{"@plotdb/guides":"github:plotdb/guides#master","@plotdb/srcbuild":"^0.0.71","fedep":"^1.7.6"}}
+{"name":"@makeform/upload","version":"2.0.6","description":"","scripts":{},"keywords":[],"author":"zbryikt","license":"MIT","devDependencies":{"@plotdb/srcbuild":"^0.0.70","fedep":"^1.7.3"}}

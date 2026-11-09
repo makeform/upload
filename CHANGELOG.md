@@ -1,7 +1,10 @@
 # Change Logs
 
-## v2.3.2
+## v2.0.6
 
+ - features:
+   - support drag-and-drop file upload; dropped files go through the same validation and upload flow as the file input
+   - show a drop hint overlay while dragging files over the widget (i18n: zh-TW / en)
  - tweaks:
    - reject folders dropped into the widget, with a hint (i18n: zh-TW / en)
    - reject multiple files dropped into a single-file widget, with a hint (i18n: zh-TW / en)
@@ -9,38 +12,16 @@
    - snapshot dropped files during the drop event, since `dataTransfer.files` may be emptied before the async upload flow reads it
 
 
-## v2.3.1
-
- - upgrade dependencies
-
-
-## v2.3.0
-
- - features:
-   - support drag-and-drop file upload; dropped files go through the same validation and upload flow as the file input
-   - show a drop hint overlay while dragging files over the widget (i18n: zh-TW / en)
-
-
-## v2.2.1
+## v2.0.5
 
  - tweak metadata separator margin
  - tweak metadata wording for layout
  - remove `download` attr from download link; rely on server header to prevent beforeunload warning
 
 
-## v2.2.0
+## v2.0.4
 
  - add link for downloading
-
-
-## v2.1.1
-
- - use local moment lib
-
-
-## v2.1.0
-
- - support @grantdash/composer host
 
 
 ## v2.0.3
