@@ -1,8 +1,8 @@
 # Change Logs
 
-## master
+## v2.3.2
 
- - features:
+ - tweaks:
    - reject folders dropped into the widget, with a hint (i18n: zh-TW / en)
    - reject multiple files dropped into a single-file widget, with a hint (i18n: zh-TW / en)
  - bug fix:
